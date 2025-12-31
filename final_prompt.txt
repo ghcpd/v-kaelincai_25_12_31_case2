@@ -1,0 +1,203 @@
+# Complete Bug Fix & Validation Task for Event Registration System
+
+## Role & Objective
+
+You are a software engineer tasked with fixing a browser date format compatibility issue in an Event Registration System project. Your objective is to:
+1. Create a complete fixed version of the project in a designated directory
+2. Implement date parser improvements to support multiple date formats
+3. Execute comprehensive validation including all tests and runtime verification
+4. Deliver a fully functional, production-ready solution
+
+## Inputs & Context
+
+**Source Project Location**: `c:\BugBash\workSpace2\issue_project`
+- Contains a buggy Flask-based Event Registration System
+- Tests currently show: 9 passed, 7 xfailed (expected failures)
+- Bug location: `src/date_parser.py` - only accepts ISO 8601 format
+- Failing formats: Safari slash, US AM/PM, text month, European formats
+
+**Target Directory**: `c:\BugBash\workSpace2\oswe-mini-prime-new`
+- Create the fixed project here with complete file structure
+- Keep original project intact (do not modify)
+
+**Available Resources**:
+- python-dateutil library (already in requirements.txt)
+- Existing test suite with marked xfail tests
+- Sample submission data in JSON format
+
+## Step-by-Step Instructions
+
+### Phase 1: Project Setup & File Creation
+
+1. Create complete directory structure under `c:\BugBash\workSpace2\oswe-mini-prime-new`:
+   - src/ (with __init__.py, app.py, event_service.py, date_parser.py)
+   - src/templates/ (with index.html)
+   - src/static/css/ (with style.css)
+   - src/static/js/ (with app.js)
+   - tests/ (with __init__.py, test_date_parser.py, test_event_service.py)
+   - data/ (with sample_submissions.json)
+   - Root files: requirements.txt, README.md, FIX_SUMMARY.md
+
+2. Copy all files from original `issue_project/` to the new location
+
+### Phase 2: Bug Fix Implementation
+
+3. Fix `src/date_parser.py` to support multiple date formats:
+   - Maintain ISO 8601 support (fast path): "2024-06-15T14:30", "2024-06-15T14:30:00"
+   - Add support for slash format: "2024/06/15 14:30"
+   - Add support for US AM/PM format: "06/15/2024 02:30 PM"
+   - Add support for text month format: "Jun 15, 2024 14:30"
+   - Add support for European format: "15-06-2024 14:30"
+   - Use python-dateutil.parser.parse() as fallback with appropriate dayfirst parameter
+   - Maintain backward compatibility - all existing functionality must continue to work
+   - Implement robust error handling with clear error messages
+
+4. Update `src/event_service.py`:
+   - Improve error messaging for invalid date inputs to be clearer and more user-friendly
+   - Ensure messages guide users to correct format
+
+5. Remove all `@pytest.mark.xfail` decorators from:
+   - `tests/test_date_parser.py`
+   - `tests/test_event_service.py`
+
+### Phase 3: Documentation & Testing
+
+6. Create `FIX_SUMMARY.md` documenting:
+   - What was broken (specific issue and impact)
+   - What changed (modified files and functions)
+   - How the solution works (approach and implementation strategy)
+   - Why this approach was chosen
+   - Test results before and after fix
+
+7. Update `README.md` to reflect the fixes and supported formats
+
+8. Update `data/sample_submissions.json` to reflect successful parsing for all formats
+
+### Phase 4: Comprehensive Validation
+
+9. Run complete test suite:
+   ```
+   cd c:\BugBash\workSpace2\oswe-mini-prime-new
+   pytest tests/ -v
+   ```
+   Expected result: 16 passed (no xfail, no failures)
+
+10. Verify date parsing logic works for all required formats:
+    - Test with sample data from sample_submissions.json
+    - Ensure all formats are correctly parsed and registered
+
+11. Launch the web application:
+    ```
+    cd c:\BugBash\workSpace2\oswe-mini-prime-new
+    python -m src.app
+    ```
+    - Verify application starts without errors
+    - Test registration endpoints with all date formats
+    - Confirm success responses for valid dates
+    - Verify proper error handling for invalid dates
+
+12. Capture and document all outputs:
+    - Test execution logs showing all 16 tests passing
+    - Application startup confirmation
+    - API endpoint validation results
+    - Any error traces or warnings
+
+## Output Specification
+
+### Required Deliverables
+
+1. **Fixed Project Directory**: `c:\BugBash\workSpace2\oswe-mini-prime-new/`
+   - Complete working project with all files
+   - All tests passing (16/16)
+   - Fully functional Flask web application
+   - All date formats properly supported
+
+2. **FIX_SUMMARY.md**: Document containing:
+   - Clear description of the original bug
+   - List of modified files and specific changes
+   - Implementation approach and rationale
+   - Test results before and after (9+7 xfailed → 16 passed)
+   - Supported date format examples
+
+3. **Validation Report**: Summary including:
+   - Test execution results (all 16 tests passed - explicit confirmation)
+   - Application launch status (successful/failed)
+   - Date format parsing validation results
+   - API endpoint verification results
+   - Any errors, warnings, or issues encountered
+   - Explicit statement of whether all test cases passed
+
+### File Modification Details
+
+**date_parser.py changes**:
+- Keep existing ISO format parsing for performance
+- Add try/except with python-dateutil fallback
+- Implement proper error messages
+- Handle edge cases (None values, empty strings, malformed dates)
+
+**Test files changes**:
+- Remove @pytest.mark.xfail decorator from all test functions
+- No other test modifications needed
+- Tests should remain identical except for decorator removal
+
+## Constraints & Preferences
+
+### Must-Do Constraints
+- Do NOT modify original `issue_project/` directory
+- Do NOT simplify or remove any tests
+- Do NOT change the API signature of `parse_event_datetime()` function
+- Do NOT add new dependencies beyond what exists in requirements.txt
+- Must maintain all original functionality
+- Must ensure backward compatibility with ISO 8601 format
+
+### Code Quality Requirements
+- Production-quality implementation with proper error handling
+- Handle edge cases gracefully
+- Clear and descriptive error messages
+- Maintain existing code style and conventions
+- Add helpful comments explaining the date parsing approach
+
+### Testing Requirements
+- All 16 tests must pass (not 9 passed + 7 xfailed)
+- Tests must run without warnings or failures
+- Test validation must be done with verbose output (-v flag)
+
+## Quality Gates & Validation Checklist
+
+Before completing, verify:
+
+✓ Original project directory remains completely unchanged
+✓ New directory `oswe-mini-prime-new/` created with complete project structure
+✓ All files copied and date_parser.py fix implemented
+✓ All @pytest.mark.xfail decorators removed from test files
+✓ pytest execution shows: 16 passed (not 9 passed, 7 xfailed)
+✓ No test failures or errors
+✓ No import errors or missing dependencies
+✓ Web application launches successfully without errors
+✓ API endpoints respond correctly for all date formats
+✓ Sample data formats are all successfully parsed
+✓ FIX_SUMMARY.md documents all changes clearly
+✓ README.md updated to reflect the fixes
+✓ All validation outputs captured and documented
+✓ Explicit confirmation that all test cases passed
+
+## Success Criteria - MUST BE MET
+
+1. ✅ Directory `oswe-mini-prime-new/` exists with complete project
+2. ✅ All 16 tests pass (explicit test count confirmation required)
+3. ✅ Zero xfail tests (all tests run and pass)
+4. ✅ Web application launches without errors
+5. ✅ All 6 required date formats are supported and work correctly
+6. ✅ Original project (`issue_project/`) remains unchanged
+7. ✅ FIX_SUMMARY.md clearly documents implementation details
+8. ✅ Final validation report explicitly states: "All test cases passed"
+
+## Critical Instructions for Completion
+
+- Execute the complete task in a single interaction
+- Do NOT pause for feedback between phases
+- Complete all testing and validation before concluding
+- Provide explicit confirmation that all 16 tests passed
+- Summarize runtime results comprehensively
+- Document any errors or warnings encountered
+- Confirm the project meets all expected functionality requirements

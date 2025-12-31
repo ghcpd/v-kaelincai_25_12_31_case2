@@ -1,0 +1,67 @@
+{
+  "description": "Sample event registration submissions from different browsers",
+  "submissions": [
+    {
+      "browser": "Chrome 120",
+      "os": "Windows 11",
+      "name": "Alice Johnson",
+      "email": "alice@example.com",
+      "event_datetime": "2025-06-15T14:30",
+      "status": "success",
+      "note": "Chrome provides native datetime-local picker, submits ISO 8601 format"
+    },
+    {
+      "browser": "Edge 120",
+      "os": "Windows 11",
+      "name": "Bob Smith",
+      "email": "bob@example.com",
+      "event_datetime": "2025-07-20T09:00",
+      "status": "success",
+      "note": "Edge also supports datetime-local, works correctly"
+    },
+    {
+      "browser": "Safari 16.4",
+      "os": "macOS",
+      "name": "Carol White",
+      "email": "carol@example.com",
+      "event_datetime": "2025/06/15 14:30",
+      "status": "success",
+      "note": "Safari manual entry now accepted by the fixed parser"
+    },
+    {
+      "browser": "Safari 15.0",
+      "os": "iOS 15",
+      "name": "David Lee",
+      "email": "david@example.com",
+      "event_datetime": "06/15/2025 02:30 PM",
+      "status": "success",
+      "note": "iOS Safari US-format accepted"
+    },
+    {
+      "browser": "Firefox 100",
+      "os": "Windows 11",
+      "name": "Eve Martinez",
+      "email": "eve@example.com",
+      "event_datetime": "Jun 15, 2025 14:30",
+      "status": "success",
+      "note": "Firefox manual text-month entry accepted"
+    },
+    {
+      "browser": "Firefox 95",
+      "os": "Linux",
+      "name": "Frank Brown",
+      "email": "frank@example.com",
+      "event_datetime": "15-06-2025 14:30",
+      "status": "success",
+      "note": "European date format accepted"
+    }
+  ],
+  "statistics": {
+    "total_attempts": 6,
+    "successful": 6,
+    "failed": 0,
+    "success_rate": "100%",
+    "affected_browsers": [],
+    "working_browsers": ["Chrome", "Edge", "Safari", "Firefox"]
+  }
+}

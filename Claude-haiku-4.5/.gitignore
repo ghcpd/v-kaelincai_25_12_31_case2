@@ -1,0 +1,13 @@
+# .gitignore for Claude-haiku-4.5
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+venv/
+.env/
+*.sqlite3
+.DS_Store
+.idea/
+.vscode/
+node_modules/

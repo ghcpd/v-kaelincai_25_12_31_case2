@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Registration - Browser Compatibility Demo (Fixed)</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎉 Tech Conference 2025 Registration (Fixed)</h1>
+            <p class="subtitle">Browser date input compatibility fixes applied</p>
+        </header>
+
+        <!-- Browser Compatibility Warning -->
+        <div class="browser-info">
+            <h3>🔍 Browser Compatibility Status:</h3>
+            <div class="browser-grid">
+                <div class="browser-item supported">
+                    <span class="icon">✅</span>
+                    <strong>Chrome / Edge</strong>
+                    <p>Native date picker works correctly</p>
+                </div>
+                <div class="browser-item supported">
+                    <span class="icon">✅</span>
+                    <strong>Safari</strong>
+                    <p>Manual entry formats accepted by backend</p>
+                </div>
+                <div class="browser-item supported">
+                    <span class="icon">✅</span>
+                    <strong>Firefox</strong>
+                    <p>Manual entry formats accepted by backend</p>
+                </div>
+            </div>
+
+            <div class="format-info">
+                <p><strong>Accepted formats (examples):</strong></p>
+                <ul>
+                    <li><code>2024-06-15T14:30</code> (ISO — preferred)</li>
+                    <li><code>2024/06/15 14:30</code> (slash)</li>
+                    <li><code>06/15/2024 02:30 PM</code> (US w/ AM/PM)</li>
+                    <li><code>Jun 15, 2024 14:30</code> (text month)</li>
+                    <li><code>15-06-2024 14:30</code> (European)</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Registration Form -->
+        <div class="form-container">
+            <h2>Register for Event</h2>
+
+            <form id="registrationForm">
+                <div class="form-group">
+                    <label for="name">
+                        <span class="required">*</span> Full Name:
+                    </label>
+                    <input 
+                        type="text" 
+                        id="name" 
+                        name="name" 
+                        placeholder="Enter your full name"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="email">
+                        <span class="required">*</span> Email Address:
+                    </label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        placeholder="your.email@example.com"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="event_datetime">
+                        <span class="required">*</span> Event Date & Time:
+                    </label>
+                    <input 
+                        type="datetime-local" 
+                        id="event_datetime" 
+                        name="event_datetime"
+                        required
+                    >
+                    <small class="help-text">
+                        Multiple common manual formats are accepted by the backend.
+                    </small>
+                </div>
+
+                <button type="submit" class="btn-submit">
+                    Register Now
+                </button>
+
+                <div id="message"></div>
+            </form>
+        </div>
+
+        <!-- Test Different Formats -->
+        <div class="test-section">
+            <h3>🧪 Test Different Date Formats</h3>
+            <p>Try these formats — they should all succeed now:</p>
+
+            <div class="test-buttons">
+                <button class="btn-test" onclick="testFormat('2025-06-15T14:30')">
+                    ✅ ISO Format
+                </button>
+                <button class="btn-test" onclick="testFormat('2025/06/15 14:30')">
+                    ✅ Slash Format
+                </button>
+                <button class="btn-test" onclick="testFormat('06/15/2025 02:30 PM')">
+                    ✅ US Format with AM/PM
+                </button>
+                <button class="btn-test" onclick="testFormat('Jun 15, 2025 14:30')">
+                    ✅ Text Month Format
+                </button>
+            </div>
+        </div>
+
+        <!-- Current Registrations -->
+        <div class="registrations-section">
+            <h3>📋 Current Registrations</h3>
+            <button class="btn-refresh" onclick="loadRegistrations()">
+                🔄 Refresh List
+            </button>
+            <div id="registrationsList"></div>
+        </div>
+
+        <!-- Debug Info -->
+        <div class="debug-info">
+            <h4>🔧 Debug Information</h4>
+            <div id="debugInfo"></div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

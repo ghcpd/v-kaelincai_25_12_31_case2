@@ -1,0 +1,11 @@
+/* global styles copied from original project */
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg,#667eea 0%,#764ba2 100%); padding: 20px; color: #333; }
+.container { max-width: 800px; margin: 0 auto; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+header { background: linear-gradient(135deg,#667eea 0%,#764ba2 100%); color: white; padding: 30px; text-align: center; }
+.form-container { padding: 30px; }
+.form-group { margin-bottom: 20px; }
+.form-group input { width: 100%; padding: 12px; border: 2px solid #e9ecef; border-radius: 6px; }
+.btn-submit { width: 100%; padding: 15px; background: linear-gradient(135deg,#667eea 0%,#764ba2 100%); color: #fff; border: none; border-radius: 6px; cursor: pointer; }
+.debug-info { background: #212529; color: #f8f9fa; padding: 20px 30px; font-family: 'Courier New', monospace; font-size: 0.85em; }

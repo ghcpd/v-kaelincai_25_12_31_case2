@@ -1,0 +1,147 @@
+"""
+Tests for DateParser module (Fixed)
+
+These tests verify the parser accepts multiple common date formats so
+that Safari/Firefox users can submit dates manually.
+"""
+
+import pytest
+from datetime import datetime
+from src.date_parser import DateParser, DateParseError
+
+
+class TestDateParserChromeEdge:
+    """Tests for Chrome/Edge datetime-local format (ISO 8601) - SHOULD PASS"""
+    
+    def test_parse_chrome_edge_format(self):
+        """Test that Chrome/Edge ISO 8601 format works correctly"""
+        parser = DateParser()
+        
+        # Chrome/Edge datetime-local produces ISO 8601 format
+        date_string = "2024-06-15T14:30"
+        result = parser.parse_event_datetime(date_string)
+        
+        assert result.year == 2024
+        assert result.month == 6
+        assert result.day == 15
+        assert result.hour == 14
+        assert result.minute == 30
+    
+    def test_parse_chrome_edge_with_seconds(self):
+        """Test ISO format with seconds"""
+        parser = DateParser()
+        
+        date_string = "2024-12-25T09:00:00"
+        result = parser.parse_event_datetime(date_string)
+        
+        assert result.year == 2024
+        assert result.month == 12
+        assert result.day == 25
+        assert result.hour == 9
+        assert result.minute == 0
+
+
+class TestDateParserSafariBrowserIssues:
+    """
+    Tests for Safari browser compatibility issues - SHOULD PASS AFTER FIX
+    """
+    
+    def test_parse_safari_slash_format(self):
+        """
+        Safari users often enter dates with slashes
+        """
+        parser = DateParser()
+        
+        # Safari user manually enters date with slashes
+        date_string = "2024/01/15 14:30"
+        
+        result = parser.parse_event_datetime(date_string)
+        assert result.year == 2024
+        assert result.month == 1
+        assert result.day == 15
+        assert result.hour == 14
+        assert result.minute == 30
+    
+    def test_parse_safari_us_format_with_am_pm(self):
+        """
+        Safari users in US locale might use MM/DD/YYYY with AM/PM
+        """
+        parser = DateParser()
+        
+        # Common US date format with AM/PM
+        date_string = "01/15/2024 02:30 PM"
+        
+        result = parser.parse_event_datetime(date_string)
+        assert result.year == 2024
+        assert result.month == 1
+        assert result.day == 15
+        assert result.hour == 14  # 2:30 PM = 14:30
+        assert result.minute == 30
+
+
+class TestDateParserFirefoxBrowserIssues:
+    """
+    Tests for Firefox browser compatibility issues - SHOULD PASS AFTER FIX
+    """
+    
+    def test_parse_firefox_text_month_format(self):
+        """
+        Firefox users might enter dates with text month names
+        """
+        parser = DateParser()
+        
+        # Firefox user enters date with text month
+        date_string = "Jan 15, 2024 14:30"
+        
+        result = parser.parse_event_datetime(date_string)
+        assert result.year == 2024
+        assert result.month == 1
+        assert result.day == 15
+        assert result.hour == 14
+        assert result.minute == 30
+    
+    def test_parse_firefox_european_format(self):
+        """
+        European Firefox users use DD-MM-YYYY format
+        """
+        parser = DateParser()
+        
+        # European date format (day-month-year)
+        date_string = "15-01-2024 14:30"
+        
+        result = parser.parse_event_datetime(date_string)
+        assert result.year == 2024
+        assert result.month == 1
+        assert result.day == 15
+        assert result.hour == 14
+        assert result.minute == 30
+
+
+class TestDateParserEdgeCases:
+    """Test edge cases and validation"""
+    
+    def test_empty_string_raises_error(self):
+        """Test that empty string raises appropriate error"""
+        parser = DateParser()
+        
+        with pytest.raises(DateParseError) as exc_info:
+            parser.parse_event_datetime("")
+        
+        assert "cannot be empty" in str(exc_info.value)
+    
+    def test_none_value_raises_error(self):
+        """Test that None value raises appropriate error"""
+        parser = DateParser()
+        
+        with pytest.raises(DateParseError):
+            parser.parse_event_datetime(None)
+    
+    def test_format_for_display(self):
+        """Test datetime display formatting"""
+        parser = DateParser()
+        
+        dt = datetime(2024, 6, 15, 14, 30)
+        result = parser.format_for_display(dt)
+        
+        assert "June 15, 2024" in result
+        assert "02:30 PM" in result

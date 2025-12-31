@@ -1,0 +1,202 @@
+# Complete Event Registration System Bug Fix with Full Validation
+
+## Role & Objective
+
+You are a full-stack software engineer responsible for:
+1. Creating a fixed version of a buggy Event Registration System project
+2. Implementing browser date format compatibility fixes
+3. Executing comprehensive validation including all tests and runtime verification
+4. Delivering a production-ready solution with complete validation evidence
+
+## Inputs & Context
+
+**Source Project**: `C:\BugBash\workSpace2\issue_project`
+- Flask-based Event Registration System with browser compatibility bug
+- Current status: 9 tests passed, 7 tests marked as xfail (expected failures)
+- Bug location: `src/date_parser.py` only accepts ISO 8601 format
+- Failing formats: Safari slash, US AM/PM, text month, European format
+- All supporting files available: requirements.txt, templates, static assets, tests, documentation
+
+**Target Location**: `C:\BugBash\workSpace2\grok-fast`
+- Create `issue_project_fixed/` directory with the complete fixed project
+- Keep original `issue_project/` directory untouched
+
+**Reference Documentation**: FIX_PROMPT.md contains detailed bug specifications and requirements
+
+## Step-by-Step Instructions
+
+### Phase 1: Project Setup & File Preparation
+1. Create complete directory structure under `C:\BugBash\workSpace2\grok-fast\issue_project_fixed/`:
+   - `src/` with `__init__.py`, `app.py`, `event_service.py`, `date_parser.py`
+   - `src/templates/` with `index.html`
+   - `src/static/css/` with `style.css`
+   - `src/static/js/` with `app.js`
+   - `tests/` with `__init__.py`, `test_date_parser.py`, `test_event_service.py`
+   - `data/` with `sample_submissions.json`
+   - Root files: `requirements.txt`, `README.md`, `FIX_SUMMARY.md`, `.gitignore`
+
+2. Copy all files from `C:\BugBash\workSpace2\issue_project/` to the new fixed directory structure
+
+3. Set up Python environment:
+   - Create virtual environment in the fixed project directory
+   - Install all dependencies from requirements.txt
+
+### Phase 2: Date Parser Bug Fix
+4. Fix `src/date_parser.py` to support multiple date formats:
+   - Implement fast-path using `datetime.fromisoformat()` for ISO 8601 formats
+   - Add fallback parsing using `dateutil.parser.parse()` for non-ISO formats
+   - Support all required date formats:
+     - ISO 8601: `"2024-06-15T14:30"`
+     - ISO with seconds: `"2024-06-15T14:30:00"`
+     - Slash format: `"2024/06/15 14:30"`
+     - US format with AM/PM: `"06/15/2024 02:30 PM"`
+     - Text month format: `"Jun 15, 2024 14:30"`
+     - European format: `"15-06-2024 14:30"`
+   - Maintain backward compatibility and original API signature
+   - Implement proper error handling
+
+5. Update `src/event_service.py`:
+   - Improve error messages for invalid date inputs
+   - Make messages clear and user-friendly
+
+6. Remove all `@pytest.mark.xfail` decorators:
+   - From `tests/test_date_parser.py`
+   - From `tests/test_event_service.py`
+   - Update any hardcoded test dates to generate dynamically
+
+7. Create documentation:
+   - Create `FIX_SUMMARY.md` documenting what was fixed
+   - Update `README.md` with fix details
+   - Update `data/sample_submissions.json` with successful examples
+
+### Phase 3: Automated Test Execution
+8. Execute the complete test suite:
+   ```
+   cd C:\BugBash\workSpace2\grok-fast\issue_project_fixed
+   python -m pytest tests/ -v
+   ```
+   Expected result: 16 passed (zero failures, zero xfailed)
+
+9. Verify test output includes:
+   - All test names with pass/fail status
+   - Total count: 16 passed
+   - No xfailed tests
+
+### Phase 4: Runtime System Validation
+10. Launch Flask development server:
+    - Start the application from the fixed project directory
+    - Verify startup succeeds without critical errors
+    - Confirm server listens on http://127.0.0.1:5000
+
+11. Execute functional testing with all date formats:
+    - Test with ISO 8601 format
+    - Test with Safari slash format
+    - Test with US AM/PM format
+    - Test with text month format
+    - Test with European format
+    - Verify each format registers successfully
+
+12. Validate HTTP endpoints:
+    - GET `/` returns HTTP 200
+    - POST `/api/register` accepts all date formats
+    - GET `/api/registrations` retrieves stored data
+
+13. Capture all outputs and logs:
+    - Test execution logs with verbose output
+    - Server startup logs
+    - Sample HTTP responses
+    - Registration results for each format
+
+### Phase 5: Validation Report & Cleanup
+14. Stop running server
+
+15. Prepare comprehensive validation summary:
+    - State explicitly: "All test cases passed"
+    - Provide test count (16/16)
+    - Confirm Flask application launches successfully
+    - Confirm all 5 date formats work correctly
+    - Document any warnings or non-critical issues
+    - Confirm system behaves consistently across all test scenarios
+
+## Output Specification
+
+### Deliverables
+
+1. **Fixed Project Directory**: `C:\BugBash\workSpace2\grok-fast\issue_project_fixed/`
+   - Complete project with all source files
+   - All 16 tests passing (previously 9 passed + 7 xfailed)
+   - Fully functional Flask application
+   - All 6 date formats supported
+
+2. **Test Results**:
+   - Output showing: `16 passed` (with -v verbose flag)
+   - Zero xfailed tests
+   - Zero failed tests
+
+3. **Validation Evidence**:
+   - Flask server startup logs
+   - Test execution output with all test names
+   - Functional testing results for each date format
+   - HTTP response samples
+   - Registration counts and data
+
+4. **Documentation**:
+   - `FIX_SUMMARY.md` in fixed project directory
+   - Updated `README.md`
+   - Updated sample submission data
+
+### Success Criteria
+
+✅ Directory `issue_project_fixed/` created with complete project
+✅ All 16 tests pass (explicit count confirmation)
+✅ Zero xfail tests
+✅ Zero test failures
+✅ Flask application launches without critical errors
+✅ All 6 date formats work correctly:
+   - ISO 8601: `"2024-06-15T14:30"`
+   - ISO with seconds: `"2024-06-15T14:30:00"`
+   - Slash: `"2024/06/15 14:30"`
+   - US AM/PM: `"06/15/2024 02:30 PM"`
+   - Text month: `"Jun 15, 2024 14:30"`
+   - European: `"15-06-2024 14:30"`
+✅ Original project remains unchanged
+✅ `FIX_SUMMARY.md` documents changes clearly
+✅ Validation report states: "All test cases passed"
+
+## Constraints & Requirements
+
+### Must-Do
+- Do NOT modify original `C:\BugBash\workSpace2\issue_project/`
+- Do NOT simplify or remove test cases
+- Do NOT change `parse_event_datetime()` function signature
+- Do NOT add new dependencies beyond requirements.txt
+- Must maintain backward compatibility with ISO format
+- All original functionality must continue working
+
+### Code Quality
+- Production-quality implementation
+- Robust error handling for edge cases
+- Clear error messages
+- Consistent code style
+- Helpful comments explaining the fix
+- No breaking changes
+
+### Testing Requirements
+- All 16 tests must pass
+- Test execution must use verbose flag (-v)
+- No import or dependency errors
+- No runtime errors from application code
+- Non-blocking warnings from external libraries are acceptable
+- Flask server starts without critical errors
+
+## Critical Execution Instructions
+
+- Complete the entire task in one continuous execution
+- Do NOT pause between phases
+- Execute all testing and validation before concluding
+- Provide explicit confirmation: "All test cases passed"
+- Include actual test output showing all 16 test names
+- Provide specific HTTP status codes and response examples
+- Document all warnings and non-critical issues
+- Confirm all 6 date formats are working with evidence
+- Verify system meets all expected functionality requirements
